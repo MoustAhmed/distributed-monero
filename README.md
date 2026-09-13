@@ -1,6 +1,6 @@
 # Distributed Monero CPU Cluster
 
-An open-source distributed computing system for coordinating Monero RandomX workloads across heterogeneous commodity CPUs.
+A distributed computing system for coordinating Monero RandomX workloads across heterogeneous commodity CPUs.
 
 The project allows users to combine authorized laptops, desktops, and other CPU-equipped machines into a coordinated cluster. One machine operates as the coordinator, while the remaining machines join as workers and contribute computational resources when explicitly instructed.
 
