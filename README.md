@@ -29,7 +29,7 @@ The system uses one coordinator and multiple heterogeneous worker machines. Work
 
 ```mermaid
 flowchart TB
-    CLI["User / cluster CLI"] --> C["Coordinator (Your PC or deployed instance)<br/>Worker Registry · Scheduler · Health<br/>Telemetry · Result Coordination"]
+    CLI["User / cluster CLI"] --> C["(Your PC or deployed instance)<br/>Worker Coordinator & Registry<br/>Telemetry & Health Monitoring <br/> Mining Result"]
 
     C <-->|"Mining jobs and valid results"| M["Monero node or mining pool"]
 
