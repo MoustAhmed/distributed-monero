@@ -218,6 +218,7 @@ distributed-monero/
 │   └── workload/
 ├── dashboard/
 ├── docs/
+│   ├── architecture.md
 │   └── decisions/
 ├── tests/
 ├── .github/
