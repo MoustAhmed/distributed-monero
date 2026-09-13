@@ -25,24 +25,34 @@ The project does not attempt to make an individual CPU intrinsically faster. Ins
 
 ## Architecture
 
+The system uses one coordinator and multiple heterogeneous worker machines. Workers join the cluster in an idle state and begin RandomX computation only after receiving an explicit authenticated command.
+
 ```mermaid
-flowchart TD
-    U["Unified cluster CLI"] --> C["Coordinator"]
-    C --> R["Worker registry"]
-    C --> S["Scheduler"]
-    C --> T["Telemetry collector"]
-    C --> A["Result aggregator"]
+flowchart TB
+    CLI["User / cluster CLI"] --> C["Coordinator<br/>Worker Registry · Scheduler · Health<br/>Telemetry · Result Coordination"]
 
-    W1["Laptop worker A"] <--> C
-    W2["Laptop worker B"] <--> C
-    W3["Laptop worker C"] <--> C
+    C <-->|"Mining jobs and valid results"| M["Monero node or mining pool"]
 
-    W1 --> X["RandomX computation"]
-    W2 --> X
-    W3 --> X
+    subgraph Workers["Worker layer — heterogeneous laptops"]
+        direction LR
+        W1["Worker A<br/>CPU capabilities<br/>RandomX"]
+        W2["Worker B<br/>CPU capabilities<br/>RandomX"]
+        W3["Worker C<br/>CPU capabilities<br/>RandomX"]
+    end
 
-    A --> M["Monero mining endpoint"]
+    C -->|"Authenticated control and work"| W1
+    C -->|"Authenticated control and work"| W2
+    C -->|"Authenticated control and work"| W3
+
+    W1 -.-> E["Asynchronous event stream"]
+    W2 -.-> E
+    W3 -.-> E
+
+    E -.->|"Heartbeats · telemetry · results"| C
 ```
+
+The coordinator manages communication with the selected Monero node or mining pool. It distributes current work to workers, coordinates their search spaces, receives their results, and submits valid results upstream.
+
 
 The project uses one repository and one codebase. A machine’s runtime command determines whether it operates as the coordinator or as a worker.
 
